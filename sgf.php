@@ -24,18 +24,22 @@ function igo_post_mime_types($post_mime_types) {
 add_action('wp_enqueue_scripts', 'igo_sgf_scripts');
 function igo_sgf_scripts() {
 	global $post;
-	if (has_shortcode($post->post_content, 'wgo_sgf')) {
-		wp_register_script('go_js', plugins_url('go.js', __FILE__), array('jquery'));
+	if (has_shortcode($post->post_content, 'wgo')) {
+		wp_register_script('sgf_js', plugins_url('sgf.js', __FILE__), array('jquery'));
 		wp_register_script('wgo_js', plugins_url('wgo/wgo.min.js', __FILE__));
 		wp_register_script('wgo_js_player', plugins_url('wgo/wgo.player.min.js', __FILE__));
 		wp_register_script('wgo_js_player_i18n', plugins_url('wgo/i18n/i18n.'.get_option('igo_settings_i18n').'.js', __FILE__));
-		wp_enqueue_script('go_js');
+		wp_enqueue_script('sgf_js');
 		wp_enqueue_script('wgo_js');
 		wp_enqueue_script('wgo_js_player');
 		wp_enqueue_script('wgo_js_player_i18n');
 
 		wp_register_style('wgo_player', plugins_url('wgo/wgo.player.css', __FILE__));
 		wp_enqueue_style('wgo_player');
+
+		$data = array('float_min_width' => get_option('igo_settings_min_width_for_float'));
+
+		wp_localize_script('sgf_js', 'plugin_options', $data);
 	}
 }
 
@@ -52,7 +56,7 @@ function igo_sgf_scripts() {
 //   float
 // ---------------------------------------------------------------------------------------------------------------------
 
-add_shortcode('wgo_sgf', 'igo_shortcode_sgf');
+add_shortcode('wgo', 'igo_shortcode_sgf');
 function igo_shortcode_sgf($atts, $content=null) {
 	extract(
 		shortcode_atts(
