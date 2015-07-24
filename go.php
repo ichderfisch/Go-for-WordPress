@@ -54,22 +54,6 @@ function igo_plugin_settings_link($links) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-
-add_action('wp_enqueue_scripts', 'igo_egd_scripts');
-function igo_egd_scripts() {
-	global $post;
-	if (have_posts()) {
-		while(have_posts()) {
-			the_post();
-			if (has_shortcode($post->post_content, 'egd') || has_shortcode($post->post_content, 'wgo')) {
-				wp_register_style('go-css', plugins_url('go.css', __FILE__));
-				wp_enqueue_style('go-css');
-			}
-		}
-	}
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 // Admin page
 // ---------------------------------------------------------------------------------------------------------------------
 
