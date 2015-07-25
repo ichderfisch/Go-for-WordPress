@@ -12,7 +12,7 @@
  */
 
 require_once __DIR__ . '/egd.php';
-require_once __DIR__ . '/sgf.php';
+require_once __DIR__ . '/shortcodes/sgf.php';
 require_once __DIR__ . '/tablesorter.php';
 require_once __DIR__ . '/mime_types.php';
 require_once __DIR__ . '/classes/settings.php';
