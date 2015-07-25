@@ -68,6 +68,10 @@ add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 	} else {
 		$out .= ' data-wgo="';
 	}
+
+	// If a link is found, extract its URL
+	$content = preg_replace( '@<a href="([^"]+)">.*?</a>@', '$1', $content );
+
 	$content = strip_tags( $content );
 	$out .= str_replace( array( "\r", "\r\n", "\n" ), '', $content ) . '"></div>';
 
