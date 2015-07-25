@@ -68,8 +68,8 @@ add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 	} else {
 		$out .= ' data-wgo="';
 	}
-	$content = preg_replace( '@<w?br[^>]*/?>@', '', $content );
-	$out .= str_replace( array( "\r", "\r\n", "\n" ), '', $content ) . '""></div>';
+	$content = strip_tags( $content );
+	$out .= str_replace( array( "\r", "\r\n", "\n" ), '', $content ) . '"></div>';
 
 	return $out;
 } );
