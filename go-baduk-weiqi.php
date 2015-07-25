@@ -15,7 +15,6 @@ require_once __DIR__ . '/egd.php';
 require_once __DIR__ . '/shortcodes/sgf.php';
 require_once __DIR__ . '/tablesorter.php';
 require_once __DIR__ . '/mime_types.php';
-require_once __DIR__ . '/classes/settings.php';
 
 
 /**
@@ -64,12 +63,21 @@ add_action( 'plugins_loaded', function () {
 
 
 /**
- * Admin page
+ * Backend
  */
-add_action( 'admin_init', function () {
-	\Wgo\Settings::get_instance()->admin_init();
-} );
+if (is_admin()) {
+	require_once __DIR__ . '/classes/settings.php';
+	require_once __DIR__ . '/classes/editor.php';
 
-add_action( 'admin_menu', function () {
-	\Wgo\Settings::get_instance()->admin_menu();
-} );
+	add_action( 'admin_init', function () {
+		\Wgo\Settings::get_instance()->admin_init();
+	} );
+
+	add_action( 'admin_menu', function () {
+		\Wgo\Settings::get_instance()->admin_menu();
+	} );
+
+	add_action( 'admin_head', function () {
+		\Wgo\Editor::get_instance()->admin_head();
+	} );
+}
