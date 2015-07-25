@@ -1,0 +1,3 @@
+[submodule "wgo"]
+	path = wgo
+	url = https://github.com/waltheri/wgo.js.git
