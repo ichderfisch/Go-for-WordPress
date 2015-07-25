@@ -57,13 +57,17 @@ class Settings {
 	}
 
 	public function render_igo_stone_handler() {
-		$options = array( 'Normal', 'Glow', 'Monochrome' );
+		$options = array(
+			'NORMAL' => __( 'Normal', $this->loc ),
+			'PAINTED' => __( 'Painted', $this->loc ),
+			'GLOW' => __( 'Glow', $this->loc ),
+			'MONO' => __( 'Monochrome', $this->loc ),
+		);
 		$currentValue = get_option( 'igo_stone_handler' );
 		print( '<select name="igo_stone_handler">' );
-		foreach ( $options as $option ) {
-			$selected = selected( $option, $currentValue, false );
-			$displayOption = __( $option, $this->loc );
-			printf( '<option value="%s" %s>%s</option>', $option, $selected, $displayOption );
+		foreach ( $options as $key => $label ) {
+			$selected = selected( $key, $currentValue, false );
+			printf( '<option value="%s" %s>%s</option>', $key, $selected, $label );
 		}
 		print( '</select>' );
 	}

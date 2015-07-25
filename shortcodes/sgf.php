@@ -34,7 +34,7 @@ add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 
 	$out = sprintf(
 		'<div data-wgo-board="stoneHandler: WGo.Board.drawHandlers.%s, background: \'%s\'',
-		sanitize_text_field( strtoupper( $atts['stones'] ) ),
+		sanitize_text_field( $atts['stones'] ),
 		$atts['background']
 	);
 
