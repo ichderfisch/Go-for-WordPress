@@ -81,7 +81,7 @@ add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 		$key = 'wgo_sgf_' . md5( $content );
 		$sgf = get_transient( $key );
 		if ( false === $sgf ) {
-			$sgf = file_get_contents( $content );
+			$sgf = @file_get_contents( $content );
 			// Define a high cache lifetime, because SGF files normally don't change.
 			// If they do, the expiration time should be made configurable.
 			set_transient( $key, $sgf, WEEK_IN_SECONDS );
