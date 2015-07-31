@@ -16,19 +16,19 @@
 add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 	$atts = shortcode_atts(
 		array(
-			'width' => get_option( 'igo_default_width' ),
-			'maxwidth' => get_option( 'igo_max_width' ),
-			'stones' => get_option( 'igo_stone_handler' ),
+			'width'      => get_option( 'igo_default_width' ),
+			'maxwidth'   => get_option( 'igo_max_width' ),
+			'stones'     => get_option( 'igo_stone_handler' ),
 			'background' => get_option( 'igo_background' ),
-			'move' => null,
-			'static' => null,
-			'limit' => null,
-			'float' => null,
+			'move'       => null,
+			'static'     => null,
+			'limit'      => null,
+			'float'      => null,
 		),
 		$atts
 	);
 
-	if ( !( strpos( $atts['background'], '#' ) === 0 ) ) {
+	if ( ! ( strpos( $atts['background'], '#' ) === 0 ) ) {
 		$atts['background'] = plugins_url( 'img/' . sanitize_text_field( $atts['background'] ), __DIR__ );
 	}
 
@@ -71,9 +71,25 @@ add_shortcode( 'sgf', function ( $atts, $content = '' ) {
 
 	// If a link is found, extract its URL
 	$content = preg_replace( '@<a[^>]+href="([^"]+)"[^>]*>.*?</a>@', '$1', $content );
-
 	$content = strip_tags( $content );
-	$out .= str_replace( array( "\r", "\r\n", "\n" ), '', $content ) . '"></div>';
+	$content = str_replace( array( "\r", "\r\n", "\n" ), '', $content );
 
-	return $out;
+	// When an URL is used, embed its content.
+	// This way we can also use remote URLs.
+	// The content is cached to avoid excessive remote requests.
+	if ( preg_match( '@^https?://@', $content ) ) {
+		$key = 'wgo_sgf_' . md5( $content );
+		$sgf = get_transient( $key );
+		if ( false === $sgf ) {
+			$sgf = file_get_contents( $content );
+			// Define a high cache lifetime, because SGF files normally don't change.
+			// If they do, the expiration time should be made configurable.
+			set_transient( $key, $sgf, WEEK_IN_SECONDS );
+		}
+		$content = $sgf;
+	}
+
+	$out .= esc_attr( $content );
+
+	return $out . '"></div>';
 } );
