@@ -12,7 +12,7 @@
  */
 
 require_once __DIR__ . '/egd.php';
-require_once __DIR__ . '/shortcodes/sgf.php';
+require_once __DIR__ . '/classes/shortcode/sgf.php';
 require_once __DIR__ . '/tablesorter.php';
 require_once __DIR__ . '/mime_types.php';
 
@@ -60,6 +60,12 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), function ( $li
 add_action( 'plugins_loaded', function () {
 	load_plugin_textdomain( 'igo-lang', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 } );
+
+
+/**
+ * Initialize shortcodes
+ */
+new \Wgo\Shortcode\Sgf();
 
 
 /**
